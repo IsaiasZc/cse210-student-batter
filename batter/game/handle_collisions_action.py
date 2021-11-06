@@ -20,8 +20,9 @@ class HandleCollisionsAction(Action):
         bricks = cast["brick"]
         for brick in bricks:
             if ball.get_position().equals(brick.get_position()):
-                bricks.pop(brick)
-                ball.reverse()
+                position = brick.get_position()
+                
+                # ball.reverse()
 
 
     def wall_collision():
