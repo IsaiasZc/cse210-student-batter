@@ -23,8 +23,7 @@ class HandleCollisionsAction(Action):
             if ball.get_position().equals(brick.get_position()):
                 bricks.pop(idx)
                 self._brick_collision(ball)
-        if ball.get_position().equals(constants.MAX_X) and :
-            bricks.pop(idx)
+        if (ball.get_position().get_x() == constants.MAX_X) or (ball.get_position().get_x() == 1):
             self._wall_collision(ball)
 
 
@@ -34,6 +33,6 @@ class HandleCollisionsAction(Action):
         ball.set_velocity(Point(x,y))    
         
     def _wall_collision(self, ball):
-        y = ball.get_velocity.get_y() 
-        x = ball.get_velocity.get_x() * -1
+        y = ball.get_velocity().get_y() 
+        x = ball.get_velocity().get_x() * -1
         ball.set_velocity(Point(x,y))    
