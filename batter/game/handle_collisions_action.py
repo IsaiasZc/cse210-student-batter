@@ -22,9 +22,18 @@ class HandleCollisionsAction(Action):
         for idx,brick in enumerate(bricks):
             if ball.get_position().equals(brick.get_position()):
                 bricks.pop(idx)
-                velocity = ball.get_velocity().reverse_y()
-                ball.set_velocity(velocity)
-            if ball.get_position().equals(brick.get_position()):
-                bricks.pop(idx)
-                velocity = ball.get_velocity().reverse_x()
-                ball.set_velocity(velocity)
+                self._brick_collision(ball)
+        if ball.get_position().equals(constants.MAX_X) and :
+            bricks.pop(idx)
+            self._wall_collision(ball)
+
+
+    def _brick_collision(self, ball):
+        y = ball.get_velocity().get_y() * -1
+        x = ball.get_velocity().get_x()
+        ball.set_velocity(Point(x,y))    
+        
+    def _wall_collision(self, ball):
+        y = ball.get_velocity.get_y() 
+        x = ball.get_velocity.get_x() * -1
+        ball.set_velocity(Point(x,y))    
