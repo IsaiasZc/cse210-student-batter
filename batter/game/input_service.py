@@ -17,8 +17,8 @@ class InputService:
         """The class constructor."""
         self._screen = screen
         self._keys = {}
-        self._keys[97] = Point(-1, 0) # A - LEFT
-        self._keys[100] = Point(1, 0) # D - RIGHT
+        self._keys[97] = Point(-2, 0) # A - LEFT
+        self._keys[100] = Point(2, 0) # D - RIGHT
         
     def get_direction(self):
         """Gets the selected direction for the given player.
