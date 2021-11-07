@@ -2,6 +2,7 @@ import random
 from game import constants
 from game.action import Action
 from game.point import Point
+from game.input_service import InputService
 
 class HandleCollisionsAction(Action):
     """A code template for handling collisions. The responsibility of this class of objects is to update the game state when actors collide.
@@ -21,26 +22,29 @@ class HandleCollisionsAction(Action):
         bricks = cast["brick"]
         ball_next_position = self._next_position(ball)
         for idx,brick in enumerate(bricks):
+            # recognize when the ball has collision with
+            # the brick.
             if ball_next_position.equals(brick.get_position()):
                 bricks.pop(idx)
                 self._paddle_or_brick_collision(ball)
                 
         # collision with the sides
-        if (ball.get_position().get_x() == constants.MAX_X) or (ball_next_position.get_x() == 1):
+        if (ball_next_position.get_x() == constants.MAX_X) or (ball_next_position.get_x() == 1):
             self._wall_collision(ball)
 
-        if (ball.get_position().get_y() == constants.MAX_Y) or (ball_next_position.get_y() == 1):
+        elif (ball_next_position.get_y() == 1):
+            # top collision.
             self._paddle_or_brick_collision(ball)
        
-        # Paddle collision
-        if paddle.get_position().equals(ball.get_position()):
-            self._paddle_or_brick_collision(ball)# 
-        
         for i in range(12):
+            # recognize a paddle collision.
             x = paddle.get_position().get_x() + i
             y = paddle.get_position().get_y()
             if ball_next_position.get_x() == x and ball_next_position.get_y() == y:
                 self._paddle_or_brick_collision(ball)
+        
+        self._paddle_boundaries(paddle)
+
 
     def _paddle_or_brick_collision(self, ball):
         y = ball.get_velocity().get_y() * -1
@@ -50,7 +54,7 @@ class HandleCollisionsAction(Action):
     def _wall_collision(self, ball):
         y = ball.get_velocity().get_y() 
         x = ball.get_velocity().get_x() * -1
-        ball.set_velocity(Point(x,y)) 
+        ball.set_velocity(Point(x,y))
 
     def _next_position(self,ball):
         position = ball.get_position()
@@ -63,3 +67,10 @@ class HandleCollisionsAction(Action):
         y = 1 + (y1 + y2 - 1) % (constants.MAX_Y - 1)
         position = Point(x, y)
         return position
+    
+    def _paddle_boundaries(self,paddle):
+        position = paddle.get_position()
+        x = position.get_x()
+        while x == 1: 
+            paddle.set_position(paddle.get_position())
+        
