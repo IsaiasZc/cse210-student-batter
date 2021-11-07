@@ -22,14 +22,16 @@ class Director:
         """
         self._cast = cast
         self._script = script
+        self._keep_playing = True
         
     def start_game(self):
         """Starts the game loop to control the sequence of play."""
-        while True:
+        while self._keep_playing:
             self._cue_action("input")
             self._cue_action("update")
             self._cue_action("output")
             sleep(constants.FRAME_LENGTH)
+            self._set_keep_playing()
 
     def _cue_action(self, tag):
         """Executes the actions with the given tag.
@@ -39,3 +41,9 @@ class Director:
         """ 
         for action in self._script[tag]:
             action.execute(self._cast)
+    
+    def _set_keep_playing(self):
+        handle_collision = self._script["update"][1]
+        self._keep_playing = handle_collision.get_is_playing()
+
+

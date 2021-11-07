@@ -20,6 +20,7 @@ class HandleCollisionsAction(Action):
         paddle = cast["paddle"][0] # there's only one
         ball = cast["ball"][0] # there's only one
         bricks = cast["brick"]
+        self._is_playing = True
         ball_next_position = self._next_position(ball)
         for idx,brick in enumerate(bricks):
             # recognize when the ball has collision with
@@ -32,18 +33,22 @@ class HandleCollisionsAction(Action):
         if (ball_next_position.get_x() == constants.MAX_X) or (ball_next_position.get_x() == 1):
             self._wall_collision(ball)
 
-        elif (ball_next_position.get_y() == 1):
+        elif (ball.get_position().get_y() == 0):
             # top collision.
             self._paddle_or_brick_collision(ball)
+        
+        elif ball.get_position().get_y() == (constants.MAX_Y - 1):
+            self._is_playing = False
+            # collision with the bottom
        
-        for i in range(12):
+        for i in range(80):
             # recognize a paddle collision.
             x = paddle.get_position().get_x() + i
             y = paddle.get_position().get_y()
             if ball_next_position.get_x() == x and ball_next_position.get_y() == y:
                 self._paddle_or_brick_collision(ball)
         
-        self._paddle_boundaries(paddle)
+        # self._paddle_boundaries(paddle)
 
 
     def _paddle_or_brick_collision(self, ball):
@@ -68,9 +73,13 @@ class HandleCollisionsAction(Action):
         position = Point(x, y)
         return position
     
-    def _paddle_boundaries(self,paddle):
-        position = paddle.get_position()
-        x = position.get_x()
-        while x == 1: 
-            paddle.set_position(paddle.get_position())
+    def get_is_playing(self):
+        return self._is_playing
+
+    
+    # def _paddle_boundaries(self,paddle):
+    #     position = paddle.get_position()
+    #     x = position.get_x()
+    #     while x == 1: 
+    #         paddle.set_position(paddle.get_position())
         
