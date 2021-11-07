@@ -41,4 +41,5 @@ root                    (project root folder)
 ```
     Luis Fernando Portugal - falconbladex1@gmail.com
     Isaias Zuñiga  - zun21003@byui.edu
+    Daniel Ašler daniel.asler007@gmail.com
 ```
