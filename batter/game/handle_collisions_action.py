@@ -101,17 +101,14 @@ class HandleCollisionsAction(Action):
         return self._is_playing
     
     def _ball_velocity(self,ball, idx):
-        # paddle_center = paddle.get_position().get_x() + 5
-        # paddle_x = paddle.get_position().get_x()
-        # ball_x = ball.get_position().get_x()
-        # for i in range(12):
-        #     x1 = paddle.get_position().get_x() + i
-        #     if ball_x == x1:
-        #         percentage = (ball_x - paddle_center) / ((constants.MAX_X - paddle_x + 12)/2)
-        #         x_velocity = ball.get_velocity().get_x() + percentage
-        #         y_velocity = ball.get_velocity().get_y()
-        #         ball.set_velocity(Point(x_velocity, y_velocity))
-        #         x_velocity = - 10 if x_velocity < -10 else 10 if x_velocity > 10 else x_velocity
+        """Establish a condition for changing the velocity of the ball
+        in order to make the game harder. The ball turns fastar when hits 
+        the first and last symbol of the paddle.
+        Args:
+            ball (Actor): The game ball.
+            idx (element): the paddle position.
+        """
+
 
         y = ball.get_velocity().get_y()
         x = ball.get_velocity().get_x()

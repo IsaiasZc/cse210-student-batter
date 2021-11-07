@@ -38,5 +38,7 @@ root                    (project root folder)
 * Asciimatics 1.12.0
 
 ## Authors
----
-* # TODO: Add your names and emails here
+```
+    Luis Fernando Portugal - falconbladex1@gmail.com
+    Isaias Zuñiga  - zun21003@byui.edu
+```
