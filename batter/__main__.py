@@ -10,11 +10,15 @@ from game.move_actors_action import MoveActorsAction
 from game.input_service import InputService
 from game.output_service import OutputService
 from asciimatics.screen import Screen 
+from game.score import Score
 
 def main(screen):
 
     # create the cast {key: tag, value: list}
     cast = {}
+
+    score = Score()
+    cast["score"] = [score]
 
     x = int(constants.MAX_X / 2)
     y = int(constants.MAX_Y - 1)

@@ -43,6 +43,9 @@ class Director:
             action.execute(self._cast)
     
     def _set_keep_playing(self):
+        """ Set the keep playing value given by the handle collisions
+        object.
+        """
         handle_collision = self._script["update"][1]
         self._keep_playing = handle_collision.get_is_playing()
 

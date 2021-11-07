@@ -20,6 +20,7 @@ class HandleCollisionsAction(Action):
         paddle = cast["paddle"][0] # there's only one
         ball = cast["ball"][0] # there's only one
         bricks = cast["brick"]
+        score = cast["score"][0]
         self._is_playing = True
         ball_next_position = self._next_position(ball)
         for idx,brick in enumerate(bricks):
@@ -28,9 +29,11 @@ class HandleCollisionsAction(Action):
             if ball_next_position.equals(brick.get_position()):
                 bricks.pop(idx)
                 self._paddle_or_brick_collision(ball)
-                
+                score.add_points(1)
+        # self._ball_velocity(ball, paddle)        
+        
         # collision with the sides
-        if (ball_next_position.get_x() == constants.MAX_X) or (ball_next_position.get_x() == 1):
+        if (ball_next_position.get_x() in range(constants.MAX_X-1,constants.MAX_X)) or (ball_next_position.get_x() == 1):
             self._wall_collision(ball)
 
         elif (ball.get_position().get_y() == 1):
@@ -47,22 +50,41 @@ class HandleCollisionsAction(Action):
             x = paddle.get_position().get_x() + i
             y = paddle.get_position().get_y()
             if ball_next_position.get_x() == x and ball_next_position.get_y() == y:
+                self._ball_velocity(ball, i)
                 self._paddle_or_brick_collision(ball)
         
         # self._paddle_boundaries(paddle)
 
 
     def _paddle_or_brick_collision(self, ball):
+        """ Recognize when the ball has collision with a
+        a paddle or brinck and set the velocity and oposit y axis direction.
+
+        Args:
+            ball (Actor): The game ball.
+        """
         y = ball.get_velocity().get_y() * -1
         x = ball.get_velocity().get_x()
         ball.set_velocity(Point(x,y))    
         
     def _wall_collision(self, ball):
+        """ Recognize when the ball has collision with the walls
+        and set the velocity and oposit x axis direction.
+
+        Args:
+            ball (Actor): The game ball.
+        """
         y = ball.get_velocity().get_y() 
         x = ball.get_velocity().get_x() * -1
         ball.set_velocity(Point(x,y))
 
     def _next_position(self,ball):
+        """predict the next position of the ball to bounce 
+        against the different elements of the screen
+        
+        Args:
+            ball (Actor): The game ball.
+        """
         position = ball.get_position()
         velocity = ball.get_velocity()
         x1 = position.get_x()
@@ -75,12 +97,30 @@ class HandleCollisionsAction(Action):
         return position
     
     def get_is_playing(self):
+        """return the _is_paying boolean."""
         return self._is_playing
-
     
-    # def _paddle_boundaries(self,paddle):
-    #     position = paddle.get_position()
-    #     x = position.get_x()
-    #     while x == 1: 
-    #         paddle.set_position(paddle.get_position())
+    def _ball_velocity(self,ball, idx):
+        # paddle_center = paddle.get_position().get_x() + 5
+        # paddle_x = paddle.get_position().get_x()
+        # ball_x = ball.get_position().get_x()
+        # for i in range(12):
+        #     x1 = paddle.get_position().get_x() + i
+        #     if ball_x == x1:
+        #         percentage = (ball_x - paddle_center) / ((constants.MAX_X - paddle_x + 12)/2)
+        #         x_velocity = ball.get_velocity().get_x() + percentage
+        #         y_velocity = ball.get_velocity().get_y()
+        #         ball.set_velocity(Point(x_velocity, y_velocity))
+        #         x_velocity = - 10 if x_velocity < -10 else 10 if x_velocity > 10 else x_velocity
+
+        y = ball.get_velocity().get_y()
+        x = ball.get_velocity().get_x()
+
+        if idx == 0 or idx == 11:
+            if abs(x) == 1:
+                x *= 2
+            ball.set_velocity(Point(x, y))
         
+
+
+                

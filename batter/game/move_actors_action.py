@@ -26,9 +26,7 @@ class MoveActorsAction(Action):
 
     def _move_actor(self, actor):
         """Moves the given actor to its next position according to its 
-        velocity. Will wrap the position from one side of the screen to the 
-        other when it reaches the edge in either direction.
-        
+        velocity.
         Args:
             actor (Actor): The actor to move.
         """
@@ -42,6 +40,7 @@ class MoveActorsAction(Action):
         y = y1 + y2
 
         if actor.get_text() == "===========":
+            # this is an exception for the paddle.
             if x > constants.MAX_X - 11:
                 x = constants.MAX_X - 11
         else:
