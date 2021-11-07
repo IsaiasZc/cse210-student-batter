@@ -26,7 +26,7 @@ def main(screen):
 
     cast["brick"] = []
     for x in range(5, 75):
-        for y in range(2, 6):
+        for y in range(4, 7):
             position = Point(x, y)
             brick = Actor()
             brick.set_text("*")

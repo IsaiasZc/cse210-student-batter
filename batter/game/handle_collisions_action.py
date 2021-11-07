@@ -33,15 +33,16 @@ class HandleCollisionsAction(Action):
         if (ball_next_position.get_x() == constants.MAX_X) or (ball_next_position.get_x() == 1):
             self._wall_collision(ball)
 
-        elif (ball.get_position().get_y() == 0):
+        elif (ball.get_position().get_y() == 1):
             # top collision.
             self._paddle_or_brick_collision(ball)
         
         elif ball.get_position().get_y() == (constants.MAX_Y - 1):
             self._is_playing = False
+            print("THANKS!!!")
             # collision with the bottom
        
-        for i in range(80):
+        for i in range(12):
             # recognize a paddle collision.
             x = paddle.get_position().get_x() + i
             y = paddle.get_position().get_y()
@@ -68,8 +69,8 @@ class HandleCollisionsAction(Action):
         y1 = position.get_y()
         x2 = velocity.get_x()
         y2 = velocity.get_y()
-        x = 1 + (x1 + x2 - 1) % (constants.MAX_X - 1)
-        y = 1 + (y1 + y2 - 1) % (constants.MAX_Y - 1)
+        x = x1 + x2 #% (constants.MAX_X - 1)
+        y = y1 + y2 #% (constants.MAX_Y - 1)
         position = Point(x, y)
         return position
     
